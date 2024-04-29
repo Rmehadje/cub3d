@@ -6,7 +6,7 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 13:32:45 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/04 15:41:09 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:26:28 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,12 @@ typedef struct s_vec
 typedef struct s_map
 {
 	char			**map;
-	char			**raw;
 	char			*texture[4];
 	short			floor[3];
 	short			ceil[3]; 
 	unsigned short	height;
 	unsigned short	width;
 }	t_map;
-
-
-typedef struct s_game_data
-{
-	t_vec	vectors[3];
-	// mlx_t		*mlx;
-	// mlx_image_t		*img;
-	// mlx_texture_t	*walls;
-	t_map		map_data;	
-}	t_game_data;
 
 
 typedef struct s_texture
@@ -81,8 +70,6 @@ typedef struct s_general
 	mlx_t		*mlx;
 	mlx_image_t		*img;
 	mlx_texture_t	*walls[4];
-	int	floorcolor[3];
-	int	ceilingcolor[3];
 	t_map		*map;
 }	t_general;
 
@@ -116,15 +103,22 @@ void	ft_error(char *str);
 void	open_file(char *file, int *fd, char **content);
 void	ft_free(char **str);
 //parsing
-void	get_raw(char *file, t_map *map_data);
-void	check_params(t_map	*map_data, char params[6][4]);
-void	get_textures_path(t_map *map_data, char paths[4][4]);
+char	**get_raw(char *file);
+void	check_params(char **raw, char params[6][4]);
+void	get_textures_path(char **raw,t_map *map_data, char paths[4][4]);
+void	get_rgb(char **raw,t_map *map_data);
 void	check_valid_rgb(t_map *map_data);
-short	get_begin_and_end(t_map *map_data);
+int 	get_begin(char **raw);
+int	get_end(char **raw);
+int 	get_map(char **raw,t_map *map_data, int begin, int end);
+int	check_chars(char **map);
+void	check_f_l(char **map);
 void	check_if_open(t_map *map_data);
-void	get_map(t_map *map_data, short begin, short end);
-void	get_player(t_map *map_data, t_game_data *game_data);
+void	get_player(t_map *map_data);
+int		parser(char *file, t_map *map_data);
+char	*ft_strdup2(const char *s1);
 
+//execution
 void	Gunit(t_general *G, t_map	*map);
 void	setmap(t_general *G, t_map *map);
 void	check_pos(t_general *G, char **map);

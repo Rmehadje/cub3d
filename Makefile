@@ -41,7 +41,7 @@ LIBMLX := ./lib/MLX42
 
 HEADERS := -I ./include -I $(LIBMLX)/include
 
-SRC := window.c settings.c raycast.c more_raycast.c main.c init.c move_camera.c parsing.c parsing2.c utils.c\
+SRC := window.c settings.c raycast.c more_raycast.c main.c init.c move_camera.c parsing.c parsing2.c utils.c parsing3.c
 
 OBJ = $(SRC:.c=.o)
 

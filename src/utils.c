@@ -6,16 +6,57 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:36:34 by mobadiah          #+#    #+#             */
-/*   Updated: 2024/04/30 14:57:58 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:48:23 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	ft_error(char *str)
+void	ft_error(char *msg, t_general *g, t_map *m, int flag)
 {
-	while (*str)
-		write(2, str++, 1);
+	int	i;
+	int	ex_stat;
+
+	ex_stat = 0;
+	if (flag)
+	{
+		i = -1;
+		while (++i < 4)
+		{
+			if (g && g->walls[i])
+				mlx_delete_texture(g->walls[i]);
+			if (m->texture[i])
+				free(m->texture[i]);
+		}
+		if (g && g->img)
+			mlx_delete_image(g->mlx, g->img);
+		if (g && g->mlx)
+			mlx_terminate(g->mlx);
+		if (m->map)
+		{
+			ft_free2(m->map);
+		}
+	}
+	if (msg)
+	{
+		printf("%s\n", msg);
+		ex_stat = 1;
+	}
+	exit(ex_stat);
+}
+
+void	ft_free2(char **str)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (str[i] != NULL)
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+	str = NULL;
 }
 
 void	ft_free(char **str)
@@ -28,7 +69,6 @@ void	ft_free(char **str)
 		free(str[i]);
 		i++;
 	}
-	free(str);
 	str = NULL;
 }
 

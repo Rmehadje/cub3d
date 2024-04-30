@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobadiah <mobadiah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 13:32:45 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/30 17:08:00 by mobadiah         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:38:57 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define WALK 0.04
 # define ROT 0.04
 # include <unistd.h>
-# include "../libft/libft/libft.h"
+# include "../libft/libft.h"
 # include <stdio.h>
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include <stdlib.h>
@@ -97,14 +97,14 @@ enum	e_XandY
 };
 
 //utils
-void	ft_error(char *str);
+void	ft_error(char *msg, t_general *g, t_map *m, int flag);
 void	open_file(char *file, int *fd, char **content);
 void	ft_free(char **str);
 //parsing
 char	**get_raw(char *file);
 void	check_params(char **raw, char params[6][4]);
 void	get_textures_path(char **raw, t_map *map_data, char paths[4][4]);
-void	get_rgb(char **raw, t_map *map_data);
+int	get_rgb(char **raw, t_map *map_data);
 void	check_valid_rgb(t_map *map_data);
 int		get_first(char *str);
 int		get_begin(char **raw);
@@ -115,6 +115,7 @@ void	check_f_l(char **map);
 void	check_if_open(t_map *map_data);
 int		parser(char *file, t_map *map_data);
 char	*ft_strdup2(const char *s1);
+void	ft_free2(char **str);
 
 //execution
 void	gunit(t_general *g, t_map	*map);

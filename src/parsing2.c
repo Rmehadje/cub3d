@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobadiah <mobadiah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 05:14:41 by mobadiah          #+#    #+#             */
-/*   Updated: 2024/04/30 16:40:39 by mobadiah         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:34:08 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	get_end(char **raw)
 void	check_if_open_helper(t_map *map_data, int start_index)
 {
 	int	i;
-	int	j;
+	size_t	j;
 
 	i = start_index;
 	while (i < map_data->height - 1)
@@ -97,9 +97,7 @@ void	check_if_open_helper(t_map *map_data, int start_index)
 					map_data->map[i][j - 1] == ' ' ||
 					map_data->map[i + 1][j] == ' ' ||
 					map_data->map[i][j + 1] == ' '))
-			{
-				ft_error("Error Opening\n");
-			}
+				ft_error("Error Opening\n", NULL, map_data, 1);
 			j++;
 		}
 		i++;
@@ -109,7 +107,6 @@ void	check_if_open_helper(t_map *map_data, int start_index)
 void	check_if_open(t_map *map_data)
 {
 	int		i;
-	int		j;
 	char	*line;
 	char	*t_l;
 	bool	has_one;
@@ -126,8 +123,9 @@ void	check_if_open(t_map *map_data)
 		else
 			has_one = false;
 		free(line);
+		free(t_l);
 		if (!has_one)
-			ft_error("Error Opening\n");
+			ft_error("Error Opening\n", NULL, map_data, 1);
 		i++;
 	}
 	check_if_open_helper(map_data, 1);

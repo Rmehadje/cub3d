@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobadiah <mobadiah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:16:48 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/30 17:05:45 by mobadiah         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:35:13 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	check_f_l(char **map)
 	while (map[0][++i])
 	{
 		if (map[0][i] != '1' && map[0][i] != '\n')
-			ft_error("Error opening");
+			return (ft_free(map), ft_error("Error opening", NULL, NULL, 0));
 	}
 	while (map[++j])
 		;
@@ -67,7 +67,7 @@ void	check_f_l(char **map)
 	while (map[j][++i])
 	{
 		if (map[j][i] != '1' && map[j][i] != '\n')
-			ft_error("Error opening");
+			return (ft_free(map), ft_error("Error opening", NULL, NULL, 0));
 	}
 }
 /*function  to check for valid rgb color*/
@@ -80,9 +80,9 @@ void	check_valid_rgb(t_map *map_data)
 	while (i < 3)
 	{
 		if (!(map_data->floor[i] >= 0 && map_data->floor[i] <= 255))
-			ft_error("Invalid color range for floor!\n");
+			ft_error("Invalid color range for floor!\n", NULL, map_data, 1);
 		if (!(map_data->ceil[i] >= 0 && map_data->ceil[i] <= 255))
-			ft_error("Invalid color range for ceiling!\n");
+			ft_error("Invalid color range for ceiling!\n", NULL, map_data, 1);
 		i++;
 	}
 }
@@ -99,13 +99,13 @@ int	get_map(char **raw, t_map *map_data, int begin, int end)
 
 	if (begin == -1 || end == -1)
 	{
-		ft_error("Invalid map\n");
+		ft_error("Invalid map\n", NULL, map_data, 1);
 		return (-1);
 	}
 	map_data->height = (end - begin) + 1;
 	map_data->map = ft_calloc(map_data->height + 1, sizeof(char *));
 	if (!map_data->map)
-		ft_error("Memory allocation failed\n");
+		ft_error("Memory allocation failed\n", NULL, map_data, 1);
 	i = 0;
 	while (begin <= end)
 	{

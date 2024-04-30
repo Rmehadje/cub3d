@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobadiah <mobadiah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:19:03 by mobadiah          #+#    #+#             */
-/*   Updated: 2024/04/30 16:39:17 by mobadiah         ###   ########.fr       */
+/*   Updated: 2024/04/30 19:13:19 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,26 @@ char	**get_raw(char *file)
 	int			fd;
 	int			i;
 	char		**raw;
+	char		*ptr;
 
 	i = 0;
 	if (ft_strlen(file) < 5 || \
 		ft_strncmp(file + ft_strlen(file) - 4, ".cub", 4) != 0)
-	{
-		ft_error("Invalid file extension");
-		exit(EXIT_FAILURE);
-	}
+		ft_error("Invalid file extension", NULL, NULL, 0);
 	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		ft_error("ERROR: INVALID FILE", NULL, NULL, 0);
 	raw = (char **)ft_calloc(1000, sizeof(char *));
 	while (true)
 	{
-		raw[i] = get_next_line(fd);
-		if (raw[i] == NULL)
+		ptr = get_next_line(fd);
+		if (ptr == NULL)
 			break ;
+		else
+			raw[i] = ptr;
 		i++;
 	}
+	raw[999] = NULL;
 	close(fd);
 	return (raw);
 }
@@ -57,7 +60,7 @@ void	check_params(char **raw, char params[6][4])
 			if (ft_strncmp(raw[it[0]], params[it[1]], 2) == 0)
 			{
 				if (key_found[it[1]])
-					ft_error("Key appears more than once.\n");
+					return (ft_free2(raw), ft_error("Key appears more than once.\n", NULL, NULL, 0));
 				else
 					key_found[it[1]] = true;
 			}
@@ -68,7 +71,7 @@ void	check_params(char **raw, char params[6][4])
 	it[0] = 0;
 	while (it[0] < 6)
 		if (!key_found[it[0]++])
-			ft_error("Missing key.\n");
+			return (ft_free2(raw), ft_error("Missing key.\n", NULL, NULL, 0));
 }
 
 /*Parses and extracts texture paths from the map file.*/
@@ -79,11 +82,11 @@ void	get_textures_path(char **raw, t_map *map_data, char paths[4][4])
 	int				j;
 	char			**tmp;
 
-	i = 0;
-	while (raw[i] != NULL)
+	i = -1;
+	while (raw[++i] != NULL)
 	{
-		j = 0;
-		while (j < 4)
+		j = -1;
+		while (++j < 4)
 		{
 			if (ft_strncmp(raw[i], paths[j], 3) == 0)
 			{
@@ -91,41 +94,40 @@ void	get_textures_path(char **raw, t_map *map_data, char paths[4][4])
 				if (tmp != NULL && tmp[1] != NULL)
 				{
 					map_data->texture[j] = ft_strdup2(tmp[1]);
-					ft_free(tmp);
+					ft_free2(tmp);
 				}
 				else
-					ft_error("Error: Texture path not found.\n");
+					return(ft_free2(raw), ft_error("Error: Texture path not found.\n", NULL, map_data, 1));
 			}
-			j++;
 		}
-		i++;
 	}
 }
 /*Extracts floor and ceiling colors from the map file.*/
 
-void	parse_rgb_line(char *line, short *array)
+int	parse_rgb_line(char *line, short *array)
 {
 	char	**tmp;
 	char	**value;
 
 	tmp = ft_split(line, ' ');
 	if (!tmp || !tmp[1])
-		return ;
+		return (-1);
 	value = ft_split(tmp[1], ',');
-	ft_free(tmp);
+	ft_free2(tmp);
 	if (!value || !value[0] || !value[1] || !value[2])
 	{
-		ft_free(value);
-		return ;
+		ft_free2(value);
+		return (-1);
 	}
 	array[0] = ft_atoi(value[0]);
 	array[1] = ft_atoi(value[1]);
 	array[2] = ft_atoi(value[2]);
-	ft_free(value);
+	ft_free2(value);
+	return (0);
 }
 /*Extracts floor and ceiling colors from the map file.*/
 
-void	get_rgb(char **raw, t_map *map_data)
+int	get_rgb(char **raw, t_map *map_data)
 {
 	unsigned short	i;
 	short			*array;
@@ -139,7 +141,11 @@ void	get_rgb(char **raw, t_map *map_data)
 		else if (ft_strncmp(raw[i], "C ", 2) == 0)
 			array = map_data->ceil;
 		if (array != NULL)
-			parse_rgb_line(raw[i], array);
+		{
+			if (parse_rgb_line(raw[i], array) == -1)
+				return (-1);
+		}
 		i++;
 	}
+	return (0);
 }

@@ -41,7 +41,7 @@ LIBMLX := ./lib/MLX42
 
 HEADERS := -I ./include -I $(LIBMLX)/include
 
-SRC := window.c settings.c raycast.c more_raycast.c main.c init.c move_camera.c parsing.c parsing2.c utils.c parsing3.c
+SRC := window.c settings.c raycast.c more_raycast.c main.c init.c move_camera.c parsing.c parsing2.c utils.c parsing3.c parsing4.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -53,7 +53,7 @@ LIBS = $(LIBMLX)/build/libmlx42.a
 
 LDFLAGS := -ldl -lglfw -pthread -lm -flto -framework Cocoa -framework OpenGL -framework IOKit
 
-LBFT = ./libft/libft/libft.a
+LBFT = ./libft/libft.a
 
 
 all: $(OBJ_DIR) $(NAME)
@@ -63,7 +63,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
-	@cd libft && cd libft && make
+	@cd libft && make
 	@mkdir lib && cd lib && git clone https://github.com/codam-coding-college/MLX42.git
 	@cd lib/MLX42 && cmake -B build && cmake --build build -j4
 	@clear
@@ -76,11 +76,11 @@ $(NAME): $(OBJS)
 
 clean:
 	@rm -rf lib/
-	@cd libft && cd libft && make clean
+	@cd libft && make clean
 	@rm -rf $(OBJS)
 
 fclean: clean
-	cd libft && cd libft && make fclean
+	cd libft && make fclean
 	rm -f $(OBJ) $(NAME)
 	rm -rf obj
 

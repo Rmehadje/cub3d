@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_unsigned.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobadiah <mobadiah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:59:53 by mobadiah          #+#    #+#             */
-/*   Updated: 2023/04/26 11:37:10 by mobadiah         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:03:01 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_uitoa(unsigned int n)
 		len--;
 	}
 	return (string);
-}	
+}
 
 int	ft_print_unsigned(unsigned int n)
 {

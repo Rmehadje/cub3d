@@ -6,7 +6,7 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:01:03 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/04 15:39:13 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:55:24 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 void	movement(t_general *G, t_vec *vec)
 {
-	double	mx;
-	double	my;
+	double		w_x;
+	double		w_y;
 
-	mx = vec[1].x * WALK;
-	my = vec[1].y * WALK;
+	w_x = vec[1].x * WALK;
+	w_y = vec[1].y * WALK;
 	if (mlx_is_key_down(G->mlx, MLX_KEY_D))
-		if (G->map->map[(int)(vec[0].y + mx)][(int)(vec[0].x - my)] != '1')
-		vec[0] = (t_vec){vec[0].x - my, vec[0].y + mx};
+		if (G->map->map[(int)(vec[0].y + w_x)][(int)(vec[0].x - w_y)] != '1')
+			vec[0] = (t_vec){vec[0].x - w_y, vec[0].y + w_x};
 	if (mlx_is_key_down(G->mlx, MLX_KEY_A))
-		if (G->map->map[(int)(vec[0].y - mx)][(int)(vec[0].x + my)] != '1')
-		vec[0] = (t_vec){vec[0].x + my, vec[0].y - mx};
-	if (mlx_is_key_down(G->mlx, MLX_KEY_D))
-		if (G->map->map[(int)(vec[0].y + my)][(int)(vec[0].x + my)] != '1')
-		vec[0] = (t_vec){vec[0].x + mx, vec[0].y + my};
-	if (mlx_is_key_down(G->mlx, MLX_KEY_D))
-		if (G->map->map[(int)(vec[0].y - my)][(int)(vec[0].x - my)] != '1')
-		vec[0] = (t_vec){vec[0].x - mx, vec[0].y - my};
+		if (G->map->map[(int)(vec[0].y - w_x)][(int)(vec[0].x + w_y)] != '1')
+			vec[0] = (t_vec){vec[0].x + w_y, vec[0].y - w_x};
+	if (mlx_is_key_down(G->mlx, MLX_KEY_W))
+		if (G->map->map[(int)(vec[0].y + w_y)][(int)(vec[0].x + w_x)] != '1')
+			vec[0] = (t_vec){vec[0].x + w_x, vec[0].y + w_y};
+	if (mlx_is_key_down(G->mlx, MLX_KEY_S))
+		if (G->map->map[(int)(vec[0].y - w_y)][(int)(vec[0].x - w_x)] != '1')
+			vec[0] = (t_vec){vec[0].x - w_x, vec[0].y - w_y};
 }
 
 void	rotation(t_vec *vec, short sign)
@@ -39,12 +39,12 @@ void	rotation(t_vec *vec, short sign)
 	double	sa;
 	double	tmp;
 
-	ca = cos(sign * ROT);	
+	ca = cos(sign * ROT);
 	sa = sin(sign * ROT);
 	tmp = vec[1].x;
 	vec[1].x = (vec[1].x * ca) - (vec[1].y * sa);
-	vec[1].y = (tmp * sa) - (vec[1].y * ca);
-	tmp = vec[1].x;
+	vec[1].y = (tmp * sa) + (vec[1].y * ca);
+	tmp = vec[2].x;
 	vec[2].x = (vec[2].x * ca) - (vec[2].y * sa);
-	vec[2].y = (tmp * sa) - (vec[2].y * sa);
+	vec[2].y = (tmp * sa) + (vec[2].y * ca);
 }

@@ -6,7 +6,7 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:19:54 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/04 15:39:21 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:06:57 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	cast_ray2(t_array *r, char **map)
 {
-	int hx;
+	int	hx;
 
 	hx = 0;
 	while (true)
@@ -23,20 +23,20 @@ int	cast_ray2(t_array *r, char **map)
 		{
 			r->step_dis[X] += r->dir_dis[X];
 			r->pos[X] += r->s[X];
-			r->haxis = X;
+			hx = 0;
 		}
 		else
 		{
 			r->step_dis[Y] += r->dir_dis[Y];
 			r->pos[Y] += r->s[Y];
-			r->haxis = Y;
+			hx = 1;
 		}
-		if (map[r->pos[1]][r->pos[0]] == '1')
+		if (map[r->pos[Y]][r->pos[X]] == '1')
 			break ;
 	}
-	hx = r->haxis;
 	return (hx);
 }
+
 void	d_collision(t_array *r, t_wall *wall)
 {
 	if (wall->hit_ax == 0)
@@ -53,22 +53,26 @@ void	d_collision(t_array *r, t_wall *wall)
 
 void	cast_ray(t_general *G, char **map)
 {
-	uint32_t x;
-	t_array	r;
-	t_wall	wall;
+	short		x;
+	short		width;
+	t_array		r;
+	t_wall		wall;
 
-	x = 0;
-	while (x < G->img->width)
+	x = -1;
+	width = (short)G->img->width;
+	while (++x < width)
 	{
+		r.camx = (2.0 * (double)x / (double)width - 1.0);
 		r.dir[X] = G->vec[1].x + (G->vec[2].x * r.camx);
 		r.dir[Y] = G->vec[1].y + (G->vec[2].y * r.camx);
+		r.dir_dis[X] = fabs(1.0 / r.dir[X]);
+		r.dir_dis[Y] = fabs(1.0 / r.dir[Y]);
 		r.pos[X] = G->vec[0].x;
 		r.pos[Y] = G->vec[0].y;
-		r.camx = (2 * x / (double)G->img->width - 1);
 		if (r.dir[X] < 0)
-			dirxL(&r, G->vec); 
+			dirxl(&r, G->vec);
 		else
-			dirxR(&r, G->vec);
+			dirxr(&r, G->vec);
 		if (r.dir[Y] < 0)
 			diryu(&r, G->vec);
 		else
@@ -76,6 +80,5 @@ void	cast_ray(t_general *G, char **map)
 		wall.hit_ax = cast_ray2(&r, map);
 		d_collision(&r, &wall);
 		walls(&wall, x, G, &r);
-		x++;
 	}
 }

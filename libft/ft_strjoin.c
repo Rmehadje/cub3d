@@ -6,12 +6,12 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 17:26:02 by mobadiah          #+#    #+#             */
-/*   Updated: 2024/04/29 12:41:26 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:02:12 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
- 
+
 char	*ft_strjoin(const char *s1, const char *s2)
 {
 	unsigned int	i;

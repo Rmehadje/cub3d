@@ -6,7 +6,7 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:36:34 by mobadiah          #+#    #+#             */
-/*   Updated: 2024/04/04 15:39:26 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:57:58 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,6 @@ void	ft_error(char *str)
 {
 	while (*str)
 		write(2, str++, 1);
-}
-
-void	open_file(char *file, int *fd, char **content)
-{
-	*fd = open(file, O_RDONLY);
-	if (*fd == -1)
-	{
-		perror("Error opening file");
-		exit(EXIT_FAILURE);
-	}
-	*content = malloc(5000000);
-	if (!*content)
-	{
-		perror("Memory allocation failed");
-		exit(EXIT_FAILURE);
-	}
-	if (read(*fd, *content, 5000000) == -1)
-	{
-		perror("Error reading file");
-		free(*content);
-		close(*fd);
-		exit(EXIT_FAILURE);
-	}
-	close(*fd);
 }
 
 void	ft_free(char **str)
@@ -54,4 +30,26 @@ void	ft_free(char **str)
 	}
 	free(str);
 	str = NULL;
+}
+
+char	*ft_strdup2(const char *s1)
+{
+	int		i;
+	char	*result;
+	int		size;
+
+	size = 0;
+	while (s1[size] && s1[size] != '\n')
+		size++;
+	result = (char *)malloc(sizeof(char) * (size + 1));
+	if (result == NULL)
+		return (NULL);
+	i = 0;
+	while (s1[i] && s1[i] != '\n')
+	{
+		result[i] = s1[i];
+		i++;
+	}
+	result[i] = '\0';
+	return (result);
 }

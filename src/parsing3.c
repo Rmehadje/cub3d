@@ -6,7 +6,7 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:16:48 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/29 14:18:32 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:38:08 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ int	parser(char *file, t_map *map_data)
 		return (-1);
 	check_if_open(map_data);
 	check_f_l(map_data->map);
-	// dprintf(2, "%s", map_data->texture[0]);
-	// for (int j = 0; j < 4;j++)
-	// 	dprintf(2, "%s", map_data->map[j]);
-	// get_player(map_data); 
 	return (0);
 }
 

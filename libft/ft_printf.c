@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobadiah <mobadiah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 20:48:23 by mobadiah          #+#    #+#             */
-/*   Updated: 2023/04/26 17:24:59 by mobadiah         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:02:37 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_printchar(int c)
 }
 
 int	ft_format_check(va_list args, const char format)
-{	
+{
 	int	length;
 
 	length = 0;
@@ -54,7 +54,7 @@ int	ft_printf(const char *str, ...)
 		if (*str == '%')
 		{
 			length += ft_format_check(args, *(str + 1));
-				str++;
+			str++;
 		}
 		else
 			length += ft_printchar(*str);

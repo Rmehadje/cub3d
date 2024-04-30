@@ -6,23 +6,33 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:13:18 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/04 16:58:23 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:53:48 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int main (int argc, char **argv)
+void	leaks(void)
 {
-	t_general G;
-	t_map		map;
-(void)argv;
-	if (argc == 1)
+	system("leaks cub3D");
+}
+
+int	main(int argc, char **argv)
+{
+	t_general		g;
+	t_map			map;
+
+	atexit(leaks);
+	if (argc != 2)
 	{
-		Gunit(&G, &map);
-		
+		ft_error("Wrong number of argument\n");
+		return (0);
 	}
-	free(&G);
-	free(&map);
+	else
+	{
+		if (parser((char *)argv[1], &map) == -1)
+			printf("parsing error\n");
+	}
+	gunit(&g, &map);
 	return (EXIT_SUCCESS);
 }

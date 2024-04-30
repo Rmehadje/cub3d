@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobadiah <mobadiah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 13:32:45 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/30 14:55:01 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 17:08:00 by mobadiah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	check_params(char **raw, char params[6][4]);
 void	get_textures_path(char **raw, t_map *map_data, char paths[4][4]);
 void	get_rgb(char **raw, t_map *map_data);
 void	check_valid_rgb(t_map *map_data);
+int		get_first(char *str);
 int		get_begin(char **raw);
 int		get_end(char **raw);
 int		get_map(char **raw, t_map *map_data, int begin, int end);

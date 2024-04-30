@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobadiah <mobadiah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:19:03 by mobadiah          #+#    #+#             */
-/*   Updated: 2024/04/30 14:42:15 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:39:17 by mobadiah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 char	**get_raw(char *file)
 {
-	int		fd;
-	int		i;
+	int			fd;
+	int			i;
 	char		**raw;
 
 	i = 0;
@@ -34,7 +34,7 @@ char	**get_raw(char *file)
 	{
 		raw[i] = get_next_line(fd);
 		if (raw[i] == NULL)
-			break;
+			break ;
 		i++;
 	}
 	close(fd);
@@ -44,36 +44,36 @@ char	**get_raw(char *file)
 
 void	check_params(char **raw, char params[6][4])
 {
-	unsigned short	i;
-	unsigned short	j;
+	unsigned short	it[2];
 	bool			key_found[6];
 
 	ft_bzero(key_found, sizeof(bool) * 6);
-	i = 0;
-	while (raw[i] != NULL)
+	it[0] = 0;
+	while (raw[it[0]] != NULL)
 	{
-		j = 0;
-		while (j < 6)
+		it[1] = 0;
+		while (it[1] < 6)
 		{
-			if (ft_strncmp(raw[i], params[j], 2) == 0)
+			if (ft_strncmp(raw[it[0]], params[it[1]], 2) == 0)
 			{
-				if (key_found[j])
+				if (key_found[it[1]])
 					ft_error("Key appears more than once.\n");
 				else
-					key_found[j] = true;
+					key_found[it[1]] = true;
 			}
-			j++;
+			it[1]++;
 		}
-		i++;
+		it[0]++;
 	}
-	i = 0;
-	while (i < 6)
-		if (!key_found[i++])
+	it[0] = 0;
+	while (it[0] < 6)
+		if (!key_found[it[0]++])
 			ft_error("Missing key.\n");
 }
+
 /*Parses and extracts texture paths from the map file.*/
 
-void	get_textures_path(char **raw,t_map *map_data, char paths[4][4])
+void	get_textures_path(char **raw, t_map *map_data, char paths[4][4])
 {
 	int				i;
 	int				j;
@@ -103,11 +103,32 @@ void	get_textures_path(char **raw,t_map *map_data, char paths[4][4])
 }
 /*Extracts floor and ceiling colors from the map file.*/
 
-void get_rgb(char **raw,t_map	*map_data)
+void	parse_rgb_line(char *line, short *array)
+{
+	char	**tmp;
+	char	**value;
+
+	tmp = ft_split(line, ' ');
+	if (!tmp || !tmp[1])
+		return ;
+	value = ft_split(tmp[1], ',');
+	ft_free(tmp);
+	if (!value || !value[0] || !value[1] || !value[2])
+	{
+		ft_free(value);
+		return ;
+	}
+	array[0] = ft_atoi(value[0]);
+	array[1] = ft_atoi(value[1]);
+	array[2] = ft_atoi(value[2]);
+	ft_free(value);
+}
+/*Extracts floor and ceiling colors from the map file.*/
+
+void	get_rgb(char **raw, t_map *map_data)
 {
 	unsigned short	i;
 	short			*array;
-	char			**tmp[2];
 
 	i = 0;
 	while (raw[i])
@@ -118,38 +139,7 @@ void get_rgb(char **raw,t_map	*map_data)
 		else if (ft_strncmp(raw[i], "C ", 2) == 0)
 			array = map_data->ceil;
 		if (array != NULL)
-		{
-			tmp[0] = ft_split(raw[i], ' ');
-			if (tmp[0] && tmp[0][1])
-			{
-				tmp[1] = ft_split(tmp[0][1], ',');
-				if (tmp[1] && tmp[1][0] && tmp[1][1] && tmp[1][2])
-				{
-					array[0] = ft_atoi(tmp[1][0]);
-					array[1] = ft_atoi(tmp[1][1]);
-					array[2] = ft_atoi(tmp[1][2]);
-				}
-			}
-			ft_free(tmp[0]);
-			ft_free(tmp[1]);
-		}
+			parse_rgb_line(raw[i], array);
 		i++;
 	}
 }
-
-/*function  to check for valid rgb color*/
-
-void check_valid_rgb(t_map *map_data)
-{
-    unsigned short i;
-	i = 0;
-    while (i < 3)
-	{
-        if (!(map_data->floor[i] >= 0 && map_data->floor[i] <= 255))
-            ft_error("Invalid color range for floor!\n");
-        if (!(map_data->ceil[i] >= 0 && map_data->ceil[i] <= 255))
-            ft_error("Invalid color range for ceiling!\n");
-        i++;
-    }
-}
-

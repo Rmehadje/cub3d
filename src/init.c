@@ -6,7 +6,7 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:47:12 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/30 18:48:44 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 20:09:06 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	keyhooks(void *param)
 	ceiling_and_floor(g);
 	cast_ray(g, g->map->map);
 	if (mlx_is_key_down(g->mlx, MLX_KEY_ESCAPE))
-		ft_error("quitina", g, g->map, 1);
+		ft_error(NULL, g, g->map, 1);
 	if (mlx_is_key_down(g->mlx, MLX_KEY_RIGHT))
 		rotation(g->vec, 1);
 	if (mlx_is_key_down(g->mlx, MLX_KEY_LEFT))
@@ -106,5 +106,5 @@ void	gunit(t_general *g, t_map *map)
 	cast_ray(g, g->map->map);
 	mlx_loop_hook(g->mlx, keyhooks, g);
 	mlx_loop(g->mlx);
-	mlx_terminate(g->mlx);
+	ft_error(NULL, g, map, 1);
 }

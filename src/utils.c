@@ -6,7 +6,7 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:36:34 by mobadiah          #+#    #+#             */
-/*   Updated: 2024/04/30 18:48:23 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 21:00:40 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	ft_error(char *msg, t_general *g, t_map *m, int flag)
 {
 	int	i;
-	int	ex_stat;
 
-	ex_stat = 0;
 	if (flag)
 	{
 		i = -1;
@@ -33,16 +31,11 @@ void	ft_error(char *msg, t_general *g, t_map *m, int flag)
 		if (g && g->mlx)
 			mlx_terminate(g->mlx);
 		if (m->map)
-		{
 			ft_free2(m->map);
-		}
 	}
 	if (msg)
-	{
 		printf("%s\n", msg);
-		ex_stat = 1;
-	}
-	exit(ex_stat);
+	exit(flag);
 }
 
 void	ft_free2(char **str)

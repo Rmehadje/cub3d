@@ -6,7 +6,7 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:16:48 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/30 18:35:13 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 20:25:40 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	check_valid_rgb(t_map *map_data)
 	while (i < 3)
 	{
 		if (!(map_data->floor[i] >= 0 && map_data->floor[i] <= 255))
-			ft_error("Invalid color range for floor!\n", NULL, map_data, 1);
+			ft_error("Invalid color range for floor!\n", NULL, NULL, 0);
 		if (!(map_data->ceil[i] >= 0 && map_data->ceil[i] <= 255))
-			ft_error("Invalid color range for ceiling!\n", NULL, map_data, 1);
+			ft_error("Invalid color range for ceiling!\n", NULL, NULL, 0);
 		i++;
 	}
 }

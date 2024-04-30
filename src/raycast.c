@@ -6,7 +6,7 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:19:54 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/30 15:06:57 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 21:21:11 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,22 @@ void	d_collision(t_array *r, t_wall *wall)
 	}
 }
 
+static void	call_func(t_array *r, t_wall *wall, char **map)
+{
+	wall->hit_ax = cast_ray2(r, map);
+	d_collision(r, wall);
+}
+
 void	cast_ray(t_general *G, char **map)
 {
 	short		x;
-	short		width;
 	t_array		r;
 	t_wall		wall;
 
 	x = -1;
-	width = (short)G->img->width;
-	while (++x < width)
+	while (++x < (short)G->img->width)
 	{
-		r.camx = (2.0 * (double)x / (double)width - 1.0);
+		r.camx = (2.0 * (double)x / (double)G->img->width - 1.0);
 		r.dir[X] = G->vec[1].x + (G->vec[2].x * r.camx);
 		r.dir[Y] = G->vec[1].y + (G->vec[2].y * r.camx);
 		r.dir_dis[X] = fabs(1.0 / r.dir[X]);
@@ -77,8 +81,7 @@ void	cast_ray(t_general *G, char **map)
 			diryu(&r, G->vec);
 		else
 			diryd(&r, G->vec);
-		wall.hit_ax = cast_ray2(&r, map);
-		d_collision(&r, &wall);
+		call_func(&r, &wall, map);
 		walls(&wall, x, G, &r);
 	}
 }

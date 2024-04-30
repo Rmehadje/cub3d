@@ -6,14 +6,11 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:19:03 by mobadiah          #+#    #+#             */
-/*   Updated: 2024/04/30 19:13:19 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 21:10:59 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-/*Reads the contents of the map file into 
-  memory an stores them in a structred format */
 
 char	**get_raw(char *file)
 {
@@ -43,7 +40,6 @@ char	**get_raw(char *file)
 	close(fd);
 	return (raw);
 }
-/*function that verifies that all required keys are present in the map file*/
 
 void	check_params(char **raw, char params[6][4])
 {
@@ -60,7 +56,7 @@ void	check_params(char **raw, char params[6][4])
 			if (ft_strncmp(raw[it[0]], params[it[1]], 2) == 0)
 			{
 				if (key_found[it[1]])
-					return (ft_free2(raw), ft_error("Key appears more than once.\n", NULL, NULL, 0));
+					return (ft_free2(raw), ft_error("error.\n", NULL, NULL, 0));
 				else
 					key_found[it[1]] = true;
 			}
@@ -73,8 +69,6 @@ void	check_params(char **raw, char params[6][4])
 		if (!key_found[it[0]++])
 			return (ft_free2(raw), ft_error("Missing key.\n", NULL, NULL, 0));
 }
-
-/*Parses and extracts texture paths from the map file.*/
 
 void	get_textures_path(char **raw, t_map *map_data, char paths[4][4])
 {
@@ -97,17 +91,28 @@ void	get_textures_path(char **raw, t_map *map_data, char paths[4][4])
 					ft_free2(tmp);
 				}
 				else
-					return(ft_free2(raw), ft_error("Error: Texture path not found.\n", NULL, map_data, 1));
+					return (ft_free2(raw), ft_error(
+							"Error: Texture path not found.\n",
+							NULL, map_data, 1));
 			}
 		}
 	}
 }
-/*Extracts floor and ceiling colors from the map file.*/
+
+static void	fill_vec(short *array, char **value)
+{
+	array[0] = ft_atoi(value[0]);
+	array[1] = ft_atoi(value[1]);
+	array[2] = ft_atoi(value[2]);
+}
 
 int	parse_rgb_line(char *line, short *array)
 {
 	char	**tmp;
 	char	**value;
+	int		k;
+	int		i;
+	char	*r;
 
 	tmp = ft_split(line, ' ');
 	if (!tmp || !tmp[1])
@@ -115,37 +120,17 @@ int	parse_rgb_line(char *line, short *array)
 	value = ft_split(tmp[1], ',');
 	ft_free2(tmp);
 	if (!value || !value[0] || !value[1] || !value[2])
+		return (ft_free2(value), -1);
+	r = ft_strdup2(value[2]);
+	free(value[2]);
+	value[2] = r;
+	i = -1;
+	while (value[++i])
 	{
-		ft_free2(value);
-		return (-1);
+		k = -1;
+		while (value[i][++k])
+			if (!ft_isdigit(value[i][k]))
+				return (ft_free2(value), -2);
 	}
-	array[0] = ft_atoi(value[0]);
-	array[1] = ft_atoi(value[1]);
-	array[2] = ft_atoi(value[2]);
-	ft_free2(value);
-	return (0);
-}
-/*Extracts floor and ceiling colors from the map file.*/
-
-int	get_rgb(char **raw, t_map *map_data)
-{
-	unsigned short	i;
-	short			*array;
-
-	i = 0;
-	while (raw[i])
-	{
-		array = NULL;
-		if (ft_strncmp(raw[i], "F ", 2) == 0)
-			array = map_data->floor;
-		else if (ft_strncmp(raw[i], "C ", 2) == 0)
-			array = map_data->ceil;
-		if (array != NULL)
-		{
-			if (parse_rgb_line(raw[i], array) == -1)
-				return (-1);
-		}
-		i++;
-	}
-	return (0);
+	return (fill_vec(array, value), ft_free2(value), 0);
 }

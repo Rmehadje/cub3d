@@ -6,28 +6,23 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:13:18 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/30 19:04:12 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 20:51:46 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	leaks(void)
-{
-	system("leaks cub3D");
-}
-
 int	main(int argc, char **argv)
 {
 	t_general		g;
 	t_map			map;
-	int			i;
+	int				i;
 
-	atexit(leaks);
 	g.img = NULL;
 	g.mlx = NULL;
 	i = -1;
-	while (++i < 4) {
+	while (++i < 4)
+	{
 		g.walls[i] = NULL;
 		map.texture[i] = NULL;
 	}
@@ -36,6 +31,6 @@ int	main(int argc, char **argv)
 	else
 		if (parser((char *)argv[1], &map) == -1)
 			ft_error("parsing error", NULL, NULL, 0);
-	// gunit(&g, &map);
+	gunit(&g, &map);
 	return (EXIT_SUCCESS);
 }

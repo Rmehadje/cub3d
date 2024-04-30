@@ -6,7 +6,7 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 05:14:41 by mobadiah          #+#    #+#             */
-/*   Updated: 2024/04/30 18:34:08 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 20:46:39 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,9 @@ int	get_end(char **raw)
 	return (i);
 }
 
-// Check for openings at the start and end of each row  
-// Check for openings in the middle of the map
-
 void	check_if_open_helper(t_map *map_data, int start_index)
 {
-	int	i;
+	int		i;
 	size_t	j;
 
 	i = start_index;

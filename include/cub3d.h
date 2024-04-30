@@ -6,7 +6,7 @@
 /*   By: rmehadje <rmehadje@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 13:32:45 by rmehadje          #+#    #+#             */
-/*   Updated: 2024/04/30 18:38:57 by rmehadje         ###   ########.fr       */
+/*   Updated: 2024/04/30 21:11:46 by rmehadje         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ void	ft_free(char **str);
 char	**get_raw(char *file);
 void	check_params(char **raw, char params[6][4]);
 void	get_textures_path(char **raw, t_map *map_data, char paths[4][4]);
-int	get_rgb(char **raw, t_map *map_data);
+int		parse_rgb_line(char *line, short *array);
+int		get_rgb(char **raw, t_map *map_data);
 void	check_valid_rgb(t_map *map_data);
 int		get_first(char *str);
 int		get_begin(char **raw);

@@ -10,7 +10,7 @@ WE ./textures/texture3.png
 
 EA ./textures/texture4.png
 
-F 84,64,48
+F 250,64,48
 C 100,2,2
 
 1111111111111111111111111
